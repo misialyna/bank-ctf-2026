@@ -1,60 +1,72 @@
 # app.py
-from flask import Flask, request, redirect, session, send_from_directory, url_for, abort, make_response
 import os
+from flask import Flask, request, redirect, session, url_for, make_response
+from markupsafe import escape
+import sys
 
-app = Flask(__name__, static_folder='static', static_url_path='/static')
-# ZAMIEN: ustaw bezpieczny, losowy secret key przed uruchomieniem w środowisku produkcyjnym
-app.secret_key = "replace_this_with_a_random_secret_key_please_change"
+# Wczytujemy wartości z ENV — BEZ POLEGANIA na stałych w kodzie.
+VALID_USERNAME = os.environ.get("CTF_VALID_USERNAME")
+VALID_PASSWORD = os.environ.get("CTF_VALID_PASSWORD")
+SERVER_FLAG = os.environ.get("CTF_SERVER_FLAG")
+APP_SECRET = os.environ.get("FLASK_APP_SECRET")
 
-# POPRAWNE dane logowania (tylko po stronie serwera)
-VALID_USERNAME = "secure_user"
-VALID_PASSWORD = "secure_pass123"
+if not (VALID_USERNAME and VALID_PASSWORD and SERVER_FLAG):
+    sys.stderr.write(
+        "ERROR: brak wymaganych zmiennych środowiskowych.\n"
+        "Ustaw CTF_VALID_USERNAME, CTF_VALID_PASSWORD oraz CTF_SERVER_FLAG przed uruchomieniem.\n"
+    )
+    sys.exit(1)
 
-LOGIN_PAGE_FILENAME = "index.html"
+# Jeśli nie ustawiono APP_SECRET, generujemy tymczasowy ale dokumentujemy, że lepiej ustawić go ręcznie.
+if not APP_SECRET:
+    import secrets
+    APP_SECRET = secrets.token_urlsafe(32)
+    sys.stderr.write("WARNING: FLASK_APP_SECRET nie ustawiony — używany tymczasowy sekret sesji.\n")
+
+app = Flask(__name__, static_folder='.', static_url_path='')  # statyczne pliki są w tym samym katalogu
+app.secret_key = APP_SECRET
+
+INDEX_PAGE = "index.html"  # plik HTML w katalogu projektu
 
 @app.route("/")
 def index():
-    # Zwracamy zawartość pliku index.html bez modyfikowania go
-    if not os.path.exists(INDEX_FILENAME):
-        return "Brak pliku index.html", 500
-    with open(INDEX_FILENAME, 'r', encoding='utf-8') as f:
-        html = f.read()
-    # Zwracamy surowy HTML - on zawiera logikę klienta tylko do wysyłki POST na /login
-    resp = make_response(html)
+    # Zwracamy plik index.html z katalogu roboczego (gdzie uruchomisz app)
+    if not os.path.exists(INDEX_PAGE):
+        return "Brak pliku index.html w katalogu aplikacji.", 500
+    with open(INDEX_PAGE, 'rb') as f:
+        data = f.read()
+    resp = make_response(data)
     resp.headers['Content-Type'] = 'text/html; charset=utf-8'
     return resp
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form.get('username', '')
-    password = request.form.get('password', '')
+    username = request.form.get("username", "")
+    password = request.form.get("password", "")
 
-    # Serwerowa weryfikacja
+    # Walidacja po stronie serwera — porównanie z ENV
     if username == VALID_USERNAME and password == VALID_PASSWORD:
-        # Poprawne dane -> ustaw sesję i przekieruj do /secret
         session['logged_in'] = True
         session['user'] = username
         return redirect(url_for('secret'))
     else:
-        # Niepoprawne -> przekieruj z parametrem error=1
+        # brak limitów prób — po prostu przekierowujemy z parametrem informującym o błędzie
         return redirect(url_for('index') + "?error=1")
 
 @app.route("/secret")
 def secret():
-    # Dostęp tylko dla zalogowanych (sprawdzamy sesję)
     if not session.get('logged_in'):
         return redirect(url_for('index'))
-    # Serwerowa flaga (widoczna tylko po poprawnym loginie)
-    server_flag = "CTF{server_side_secret_2026}"
-    user = session.get('user', '')
-    # Generujemy prostą stronę z flagą (nie zapisujemy jej w plikach statycznych)
+    user = escape(session.get('user', ''))
+    # FLAGA jest pobierana z ENV — nigdy nie jest zapisana w plikach frontu
+    flag = SERVER_FLAG
     html = f"""<!doctype html>
 <html lang="pl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SecureBank - Sekret</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="login-container">
@@ -62,7 +74,7 @@ def secret():
     <p>Witaj, {user}. Pomyślnie zalogowano do ukrytej sekcji.</p>
     <div class="flag-box">
       <h2>Twoja flaga CTF (serwerowa):</h2>
-      <pre style="font-size:18px; font-weight:600;">{server_flag}</pre>
+      <pre style="font-size:18px; font-weight:600;">{flag}</pre>
     </div>
     <p><a href="{url_for('logout')}">Wyloguj</a></p>
   </div>
@@ -77,7 +89,6 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-# Pozostawiamy serwowanie plików statycznych Flaskowi (folder static)
-# Uruchomienie serwera:
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5000, debug=True)
+    # Domyślnie uruchom lokalnie
+    app.run(host="127.0.0.1", port=5000, debug=False)
