@@ -20,7 +20,7 @@ Otrzymałeś podejrzaną wiadomość e-mail z linkiem do strony logowania banku.
 ### Opcja 1: Serwer Lokalny (Python)
 ```bash
 # W katalogu phishing_bank/
-python -m http.server 8000
+python3 -m http.server 8000
 # Otwórz: http://localhost:8000/login_page.html
 ```
 
