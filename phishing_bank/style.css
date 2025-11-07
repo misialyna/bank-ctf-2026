@@ -1,0 +1,279 @@
+/* SecureBank - Fałszywa strona logowania banku */
+/* Style CSS dla zadania phishing CTF */
+
+/* Reset i podstawowe style */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Kontener główny */
+.login-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Nagłówek */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    background: #2c3e50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.bank-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.bank-subtitle {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+/* Formularz logowania */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ecf0f1;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background: #f8f9fa;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+    background: white;
+}
+
+.form-input:invalid {
+    border-color: #e74c3c;
+}
+
+.form-input:valid {
+    border-color: #27ae60;
+}
+
+/* Przycisk logowania */
+.login-button {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+    background: linear-gradient(135deg, #2980b9, #1f4e79);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+/* Dodatkowe linki */
+.login-links {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-link {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Komunikaty błędów */
+.error-message {
+    background: #ffe6e6;
+    color: #c0392b;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #e74c3c;
+    font-size: 14px;
+    margin-top: 15px;
+    display: none;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #27ae60;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #27ae60;
+    font-size: 14px;
+    margin-top: 15px;
+    display: none;
+}
+
+/* Stopka */
+.login-footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #7f8c8d;
+    font-size: 12px;
+}
+
+.security-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.security-icon {
+    color: #27ae60;
+}
+
+/* Animacje */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Ukryte elementy dla CTF */
+.phishing-flag {
+    display: none;
+    visibility: hidden;
+}
+
+.flag-container {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .bank-name {
+        font-size: 20px;
+    }
+    
+    .form-input {
+        font-size: 16px; /* Zapobiega zoom na iOS */
+    }
+}
+
+/* Dodatkowe style dla phishingu */
+.suspicious-input {
+    position: relative;
+}
+
+.suspicious-input::after {
+    content: "⚠️";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.suspicious-input:hover::after {
+    opacity: 0.5;
+}
+
+/* Style dla symulacji błędów */
+.fake-ssl {
+    background: #f39c12;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.urgent-message {
+    background: #e74c3c;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}

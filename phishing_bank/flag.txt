@@ -1,0 +1,1 @@
+CTF{phish_detected_2024}

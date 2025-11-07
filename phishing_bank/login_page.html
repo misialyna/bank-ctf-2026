@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Logowanie</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 
+    🔒 SECUREBANK LOGIN SYSTEM 🔒
+    
+    Ten system logowania jest w pełni zabezpieczony
+    i używa najnowszych technologii szyfrowania.
+    
+    FLAG: CTF{phish_detected_2024}
+    
+    System nie przechowuje żadnych danych osobowych.
+    Wszystkie transakcje są w pełni bezpieczne.
+    -->
+    
+    <meta name="description" content="SecureBank - Bezpieczne logowanie do Twojego konta bankowego">
+    <meta name="keywords" content="banking, login, secure, online, banking">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Urgent security notice -->
+        <div class="urgent-message">
+            ⚠️ PILNE: Potwierdź swoje dane aby uniknąć blokady konta!
+        </div>
+        
+        <div class="login-header">
+            <div class="logo">
+                <img src="securebank_logo.png" alt="SecureBank Logo" style="width: 60px; height: 60px; border-radius: 50%;">
+            </div>
+            <h1 class="bank-name">SecureBank</h1>
+            <p class="bank-subtitle">Bezpieczne Logowanie Online</p>
+        </div>
+
+        <form class="login-form" id="loginForm" action="#" method="POST">
+            <div class="form-group">
+                <label for="username" class="form-label">Numer konta lub login:</label>
+                <input type="text" id="username" name="username" class="form-input suspicious-input" 
+                       placeholder="Wprowadź swój login" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Hasło:</label>
+                <input type="password" id="password" name="password" class="form-input suspicious-input" 
+                       placeholder="Wprowadź hasło" required>
+            </div>
+
+            <!-- Ukryte pole dla flag CTF -->
+            <input type="hidden" id="phishingFlag" name="hiddenFlag" value="">
+
+            <button type="submit" class="login-button">Zaloguj się</button>
+        </form>
+
+        <div class="login-links">
+            <a href="#" class="login-link">Zapomniałeś hasła?</a>
+            <a href="#" class="login-link">Zarejestruj nowe konto</a>
+            <a href="#" class="login-link">Bezpieczeństwo</a>
+        </div>
+
+        <div class="login-footer">
+            <div class="security-info">
+                <span class="security-icon">🔒</span>
+                <span>Połączenie SSL</span>
+            </div>
+            <p>© 2024 SecureBank - Wszystkie prawa zastrzeżone</p>
+            <div class="fake-ssl">Certyfikat SSL: WAŻNY DO 2025</div>
+        </div>
+
+        <!-- Komunikaty błędów -->
+        <div id="errorMessage" class="error-message">
+            Nieprawidłowe dane logowania. Spróbuj ponownie.
+        </div>
+
+        <div id="successMessage" class="success-message">
+            Logowanie udane! Przekierowywanie...
+        </div>
+    </div>
+
+    <!-- Ukryty kontener z flagą -->
+    <div class="flag-container" style="display: none;">
+        <!-- 
+        SECRET FLAG: CTF{phish_detected_2024}
+        Ukryta w komentarzu HTML
+        Ten system nie jest prawdziwym bankiem!
+        -->
+        <span class="phishing-flag">CTF{phish_detected_2024}</span>
+    </div>
+
+    <script>
+        // SecureBank JavaScript Security System
+        // System bezpieczeństwa logowania
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("🏦 SecureBank Login System Loaded");
+            console.log("🔒 SSL Certificate Validated");
+            
+            // Pobierz flagę z komentarza HTML
+            const script = document.createElement('script');
+            script.textContent = `
+                // Hidden CTF Flag in JavaScript
+                var phishingFlag = "CTF{phish_detected_2024}";
+                console.log("CTF Flag:", phishingFlag);
+                
+                // System logowania
+                document.getElementById('loginForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    const flagInput = document.getElementById('phishingFlag');
+                    
+                    // Ukryta flaga w input
+                    flagInput.value = phishingFlag;
+                    
+                    if (username === '' || password === '') {
+                        showError('Proszę wypełnić wszystkie pola');
+                        return;
+                    }
+                    
+                    // Symulacja logowania
+                    showSuccess('Logowanie... sprawdzanie danych...');
+                    
+                    setTimeout(function() {
+                        showError('Nieprawidłowe dane logowania! Skontaktuj się z bankiem!');
+                        document.getElementById('loginForm').classList.add('shake');
+                        
+                        setTimeout(function() {
+                            document.getElementById('loginForm').classList.remove('shake');
+                        }, 500);
+                    }, 2000);
+                    
+                    // Log "ukradzionych" danych
+                    console.log('🚨 LOGOWANIE PHISHINGOWE 🚨');
+                    console.log('Username:', username);
+                    console.log('Password:', password);
+                    console.log('IP Address:', '192.168.1.100'); // Fake IP
+                    console.log('User Agent:', navigator.userAgent);
+                    console.log('Flag found:', phishingFlag);
+                });
+                
+                function showError(message) {
+                    const errorDiv = document.getElementById('errorMessage');
+                    errorDiv.textContent = message;
+                    errorDiv.style.display = 'block';
+                    document.getElementById('successMessage').style.display = 'none';
+                }
+                
+                function showSuccess(message) {
+                    const successDiv = document.getElementById('successMessage');
+                    successDiv.textContent = message;
+                    successDiv.style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                }
+                
+                // Dodatkowe funkcje bezpieczeństwa (fałszywe)
+                function validateSSL() {
+                    console.log('🛡️ SSL Certificate: SECURE');
+                    return true;
+                }
+                
+                function checkEncryption() {
+                    console.log('🔐 Data Encryption: AES-256');
+                    return true;
+                }
+                
+                // Inicjalizacja
+                validateSSL();
+                checkEncryption();
+            `;
+            document.head.appendChild(script);
+        });
+        
+        // Anti-bot detection (symulowana)
+        function detectBot() {
+            console.log('🤖 Bot Detection: DISABLED');
+            return false;
+        }
+        
+        detectBot();
+    </script>
+    
+    <!-- Dodatkowe komentarze z wskazówkami -->
+    <!-- 
+    PHISHING DETECTION TIPS:
+    1. Sprawdź URL strony
+    2. Sprawdź certyfikat SSL
+    3. Sprawdź czy nazwa banku jest prawdziwa
+    4. Sprawdź kod źródłowy strony
+    5. Szukaj komentarzy HTML
+    -->
+</body>
+</html>

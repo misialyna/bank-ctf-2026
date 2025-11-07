@@ -1,0 +1,67 @@
+# 🚨 Lista Elementów Wskazujących na Phishing
+
+## Główne Oznaczenia Phishingu:
+
+### 1. 🎨 Problemy Wizualne
+- **Logo podmienione**: "SecureBank" zamiast prawdziwej nazwy banku (PKO BP)
+- **Brak oficjalnej kolorystyki**: Kolory nie odpowiadają oficjalnym barwom banku
+- **Prostota designu**: Brak typowych elementów profesjonalnej strony banku
+
+### 2. 🔗 Problemy z URL
+- **Brak HTTPS**: Strona działa tylko na HTTP
+- **Lokalny host**: URL to localhost lub 127.0.0.1
+- **Domeny podobne**: Nazwa domeny może być myląca
+
+### 3. 📝 Problemy z Formularzem
+- **Brak walidacji**: Formularz nie sprawdza wprowadzanych danych
+- **Proste pola**: Tylko login/hasło bez dodatkowych zabezpieczeń
+- **Brak 2FA**: Brak autentykacji dwuetapowej
+- **Brak captcha**: Brak zabezpieczeń przed botami
+
+### 4. 💻 Problemy Techniczne
+- **Błędy JavaScript**: Console logi z podejrzaną zawartością
+- **Brak certyfikatów**: Brak walidacji SSL
+- **Prosty kod**: Kod źródłowy ma niską jakość
+- **Ukryte elementy**: Nietypowe divy i atrybuty
+
+### 5. 🗣️ Problemy Językowe
+- **Błędy pisowni**: Możliwe literówki w polskim języku
+- **Nieprofesjonalny ton**: Komunikaty mogą brzmieć dziwnie
+- **Brak spójności**: Różne style komunikatów
+
+### 6. 🎯 Ukryty Kod Phishingowy
+- **Komentarze HTML**: Podejrzane komentarze w kodzie
+- **Ukryta flaga**: Zadanie CTF ukryte w kodzie
+- **Base64/ROT13**: Zakodowane dane w kodzie źródłowym
+
+### 7. 🔒 Brak Zabezpieczeń
+- **Brak HTTPS**: Brak szyfrowania połączenia
+- **Proste hashowanie**: Hasła mogą być przechowywane w czystym tekście
+- **Brak sesji**: Brak mechanizmów bezpiecznej sesji
+- **Logs w console**: Debugowe informacje w konsoli przeglądarki
+
+## ✅ Lista Kontrolna dla Użytkownika:
+
+- [ ] Sprawdź prawdziwość logo i nazwy banku
+- [ ] Zweryfikuj URL strony i certyfikat SSL
+- [ ] Sprawdź czy strona używa HTTPS
+- [ ] Sprawdź obecność dodatkowych zabezpieczeń (2FA, captcha)
+- [ ] Przeanalizuj kod źródłowy w poszukiwaniu błędów
+- [ ] Sprawdź console przeglądarki pod kątem błędów
+- [ ] Zweryfikuj obecność oficjalnych certyfikatów
+- [ ] Sprawdź czy strona jest zarejestrowana w oficjalnych katalogach
+
+## 🎯 Jak Rozpoznać Prawdziwą Stronę Banku:
+
+1. **Oficjalna domena**: Sprawdź czy URL zawiera oficjalną domenę banku
+2. **Certyfikat SSL**: Zielona kłódka i certyfikat SSL
+3. **HTTPS**: Wszystkie strony powinny używać HTTPS
+4. **Brak błędów**: Strona nie powinna mieć błędów JavaScript
+5. **Profesjonalny wygląd**: Wysokiej jakości design i funkcjonalność
+6. **2FA**: Obecność dwuetapowej autentykacji
+7. **Oficjalne logo**: Używanie oficjalnych materiałów graficznych
+8. **Kontakt**: Widoczne dane kontaktowe i adres banku
+
+---
+
+**Pamiętaj: Zawsze sprawdzaj autentyczność stron bankowych! 🏦🔒**
